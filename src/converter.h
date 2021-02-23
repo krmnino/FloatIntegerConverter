@@ -26,21 +26,8 @@ float int_to_float(uint32_t input){
 	return *out;
 }
 
-void print_binary(uint32_t input){
-    uint8_t bit;
-    for(int i = 31; i >= 0; i--){
-        // Extract i-th bit and shift it right i times
-        bit = (input & 1 << i) >> i;
-        printf("%d", bit);
-        if(i % 8 == 0 && i != 0){
-            printf("_");
-        }
-    }
-    printf("\n");
-}
-
 // Convert integer into array of bytes for serial communication
-uint8_t* integer_batch(uint32_t input){
+uint8_t* uint32_t_batch(uint32_t input){
     uint8_t* output = (uint8_t*)calloc(4, sizeof(uint8_t));
     uint8_t byte_counter = 0;
     uint8_t bit;
@@ -54,9 +41,40 @@ uint8_t* integer_batch(uint32_t input){
             byte_counter++;
         }
     }
-    for(int i = 0; i < 4; i++){
-        printf("%d\n", output[i]);
-    }
     return output;
 }
 
+// Print uint8_t in binary (big-endian)
+void print_binary8(uint8_t input){
+    uint8_t bit;
+    for(int i = 7; i >= 0; i--){
+        // Extract i-th bit and shift it right i times
+        bit = (input & 1 << i) >> i;
+        printf("%d", bit);
+    }
+}
+
+// Print uint32_t in binary (big-endian)
+void print_binary32(uint32_t input){
+    uint8_t bit;
+    for(int i = 31; i >= 0; i--){
+        // Extract i-th bit and shift it right i times
+        bit = (input & 1 << i) >> i;
+        printf("%d", bit);
+        if(i % 8 == 0 && i != 0){
+            printf("_");
+        }
+    }
+}
+
+// Print uint32_t batch in binary (big-endian)
+void print_integer32_batch(uint8_t* input){
+    for(int i = 0; i < 4; i++){
+        uint8_t byte = input[i];
+        printf("Byte[%d]:", i);
+        print_binary8(byte);
+        if(i != 4){
+            printf("\n");
+        }
+    }
+}
