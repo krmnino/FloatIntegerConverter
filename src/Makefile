@@ -3,11 +3,11 @@ CC=gcc
 CCFLAGS = -Wall
 HEADERS = converter.h 
 
-$(TARGET): converter.o
-	$(CC) $(CCFLAGS) -o $@ converter.o
+$(TARGET): main.o
+	$(CC) $(CCFLAGS) -o $@ main.o
 
-main.o: converter.c $(HEADERS)
-	$(CC) $(CCFLAGS) -O -c converter.c
+main.o: main.c $(HEADERS)
+	$(CC) $(CCFLAGS) -O -c main.c
 
 clean:
-	rm converter.o $(TARGET)
+	rm main.o $(TARGET)
