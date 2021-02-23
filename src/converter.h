@@ -26,3 +26,37 @@ float int_to_float(uint32_t input){
 	return *out;
 }
 
+void print_binary(uint32_t input){
+    uint8_t bit;
+    for(int i = 31; i >= 0; i--){
+        // Extract i-th bit and shift it right i times
+        bit = (input & 1 << i) >> i;
+        printf("%d", bit);
+        if(i % 8 == 0 && i != 0){
+            printf("_");
+        }
+    }
+    printf("\n");
+}
+
+// Convert integer into array of bytes for serial communication
+uint8_t* integer_batch(uint32_t input){
+    uint8_t* output = (uint8_t*)calloc(4, sizeof(uint8_t));
+    uint8_t byte_counter = 0;
+    uint8_t bit;
+    for(int i = 31; i >= 0; i--){
+        // Extract i-th bit and shift it right i times
+        bit = (input & 1 << i) >> i;
+        // Added to array
+        output[byte_counter] = output[byte_counter] << 1;
+        output[byte_counter] = output[byte_counter] | bit;
+        if(i % 8 == 0){
+            byte_counter++;
+        }
+    }
+    for(int i = 0; i < 4; i++){
+        printf("%d\n", output[i]);
+    }
+    return output;
+}
+
